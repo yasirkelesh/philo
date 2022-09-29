@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: mukeles <mukeles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 20:04:57 by alperdemirc       #+#    #+#             */
-/*   Updated: 2022/08/29 18:14:33 by ademirci         ###   ########.fr       */
+/*   Created: 2022/09/29 13:54:04 by mukeles           #+#    #+#             */
+/*   Updated: 2022/09/29 13:54:05 by mukeles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_philo
 	int				philo_id;
 	int				r_fork_id;
 	int				l_fork_id;
-	int				eat_count;
-	long			last_eat;
+	int				eat_count;//şimdiye kadar ne kadar yedi
+	long			last_eat;//son yemek
 	pthread_t		id;
 	pthread_t		print;
 	struct s_table	*table;

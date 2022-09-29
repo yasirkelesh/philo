@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: mukeles <mukeles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 20:00:14 by alperdemirc       #+#    #+#             */
-/*   Updated: 2022/08/28 20:01:28 by ademirci         ###   ########.fr       */
+/*   Created: 2022/09/29 13:54:09 by mukeles           #+#    #+#             */
+/*   Updated: 2022/09/29 13:54:10 by mukeles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	*loop(void *p)
 
 	philo = (t_philo *)p;
 	philo->last_eat = get_time();
-	if (philo->philo_id % 2 != 0)
-		usleep(2500);
-	while (philo->table->anyone_dead == NO && !all_must_ate(philo->table))
+	if (philo->philo_id % 2 != 0)//burda id si tek olanlar yemek yesin diye diyerleri uyuyor
+		usleep(5000);
+	while (philo->table->anyone_dead == NO && !all_must_ate(philo->table))//henüz kimse ölmediyse ve herkes yemek yemediyse
 	{
 		meal(philo);
 		sleeping(philo);
@@ -29,23 +29,23 @@ void	*loop(void *p)
 	return (0);
 }
 
-int	die_check(t_table *table)
+int	die_check(t_table *table)//ölen varmı yada herkes doydumu
 {
 	int	i;
 
-	while (table->anyone_dead == NO)
+	while (table->anyone_dead == NO)//henüz kimse ölmediyse
 	{
 		i = 0;
 		while (i < table->numofphilo)
 		{
-			if (get_time() - table->philos[i].last_eat > table->timetodie)
+			if (get_time() - table->philos[i].last_eat > table->timetodie)//şu an ki zamandan yemek yemedeği zaman ölme süresinden büyükse 
 			{
-				table->anyone_dead = YES;
+				table->anyone_dead = YES;//biri öldü
 				printf(DIE, get_time() - table->start_time,
-					table->philos[i].philo_id);
+					table->philos[i].philo_id);//ne kadar sürdü ve kim öldü
 				return (0);
 			}
-			if (table->all_eat == YES)
+			if (table->all_eat == YES)//herekes yedimi
 				return (0);
 			i++;
 		}
@@ -59,14 +59,14 @@ int	create_philo(t_table *table)
 
 	i = -1;
 	while (++i < table->numofphilo)
-		pthread_create(&table->philos[i].id, NULL, &loop, &table->philos[i]);
-	die_check(table);
+		pthread_create(&table->philos[i].id, NULL, &loop, &table->philos[i]);//thread oluşturur ve hepsi loop fonksiyonunun çalıştırır
+	die_check(table);//biri ölene kadar burda dursun
 	i = -1;
 	while (++i < table->numofphilo)
-		pthread_join(table->philos[i].id, NULL);
+		pthread_join(table->philos[i].id, NULL);//zombi thread oluşmasın diye 
 	i = -1;
 	while (++i < table->numofphilo)
-		pthread_mutex_destroy(&table->forks[i]);
+		pthread_mutex_destroy(&table->forks[i]);//mutexleri yok eder
 	pthread_mutex_destroy(&table->print_m);
 	return (0);
 }

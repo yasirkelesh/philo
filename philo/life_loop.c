@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: mukeles <mukeles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 19:55:55 by alperdemirc       #+#    #+#             */
-/*   Updated: 2022/08/28 19:58:23 by ademirci         ###   ########.fr       */
+/*   Created: 2022/09/29 13:53:52 by mukeles           #+#    #+#             */
+/*   Updated: 2022/09/29 13:53:53 by mukeles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@ void	meal(t_philo *philo)
 {
 	long	current;
 
-	current = get_time() - philo->table->start_time;
-	pthread_mutex_lock(&philo->table->forks[philo->l_fork_id]);
-	pthread_mutex_lock(&philo->table->forks[philo->r_fork_id]);
-	print_status(TAKEN, philo, current);
-	current = get_time() - philo->table->start_time;
-	print_status(EAT, philo, current);
-	philo->eat_count += 1;
-	time_skip(philo->table->timetoeat);
+	current = get_time() - philo->table->start_time;//şimdiki zamandan başalngıç zamanını çıkart
+	pthread_mutex_lock(&philo->table->forks[philo->l_fork_id]);//sağdaki çatalla aktif 
+	pthread_mutex_lock(&philo->table->forks[philo->r_fork_id]);//soldaki çatallar aktif
+	print_status(TAKEN, philo, current);//TAKEN i yazdır
+	current = get_time() - philo->table->start_time;//geçen zamanı tekrar günceller
+	print_status(EAT, philo, current);//yazdır
+	philo->eat_count += 1;//yiyilen yemeği artırır
+	time_skip(philo->table->timetoeat);// yemek yeme süresini bekletir
 	philo->last_eat = get_time();
-	pthread_mutex_unlock(&philo->table->forks[philo->r_fork_id]);
+	pthread_mutex_unlock(&philo->table->forks[philo->r_fork_id]);//çatalları tekrar kitler
 	pthread_mutex_unlock(&philo->table->forks[philo->l_fork_id]);
 }
 
-void	sleeping(t_philo *philo)
+void	sleeping(t_philo *philo)//filozofları uyutur
 {
 	long	current;
 
@@ -38,7 +38,7 @@ void	sleeping(t_philo *philo)
 	time_skip(philo->table->timetosleep);
 }
 
-void	think(t_philo *philo)
+void	think(t_philo *philo)//filozoflar düşünür
 {
 	long	current;
 

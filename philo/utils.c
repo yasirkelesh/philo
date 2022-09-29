@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: mukeles <mukeles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 20:02:13 by alperdemirc       #+#    #+#             */
-/*   Updated: 2022/08/28 20:03:57 by ademirci         ###   ########.fr       */
+/*   Created: 2022/09/29 13:54:14 by mukeles           #+#    #+#             */
+/*   Updated: 2022/09/29 13:54:15 by mukeles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	time_skip(long time)
 	{
 		if (get_time() - start >= time)
 			break ;
-		usleep(200);
+		usleep(400);
 	}
 }
 

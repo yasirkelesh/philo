@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: mukeles <mukeles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 19:54:52 by alperdemirc       #+#    #+#             */
-/*   Updated: 2022/08/29 19:21:34 by ademirci         ###   ########.fr       */
+/*   Created: 2022/09/29 13:53:46 by mukeles           #+#    #+#             */
+/*   Updated: 2022/09/29 13:53:47 by mukeles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_args(t_table *table, int argc, char **argv)
 	return (1);
 }
 
-int	init_philo(t_table *table)
+int	init_philo(t_table *table)//çatal ve filo ların id lerinin atanması 
 {
 	int	i;
 
@@ -67,13 +67,13 @@ int	init_philo(t_table *table)
 	{
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].l_fork_id = i;
-		if (i % (table->numofphilo - 1) == 0 && i != 0)
+		if (i % (table->numofphilo - 1) == 0 && i != 0)// en sondaki çatal üst üste binmesin diye
 			table->philos[i].r_fork_id = 0;
 		else
 			table->philos[i].r_fork_id = i + 1;
-		table->philos[i].last_eat = table->start_time;
+		table->philos[i].last_eat = table->start_time;//son yemek için
 		table->philos[i].table = table;
-		table->philos[i].eat_count = 0;
+		table->philos[i].eat_count = 0;//henüz kimse yemedi
 	}
 	return (1);
 }
@@ -83,14 +83,14 @@ int	init_forks(t_table *table)
 	int	i;
 
 	i = -1;
-	table->forks = malloc(sizeof(pthread_mutex_t *) * table->numofphilo);
-	if (!table->forks)
+	table->forks = malloc(sizeof(pthread_mutex_t *) * table->numofphilo);//philozof sayısı kadar mutex
+	if (!table->forks)//malloc error
 	{
 		error_manage(table->philos, "", FREE);
 		error_manage(table, E_MLC, FREE);
 		return (0);
 	}
-	while (++i < table->numofphilo)
+	while (++i < table->numofphilo)//mutexelri yollaaaaa
 		pthread_mutex_init(&table->forks[i], NULL);
 	return (1);
 }
@@ -101,13 +101,13 @@ int	init(t_table *table, int argc, char **argv)
 	table->timetodie = ft_atoi(argv[2]);
 	table->timetoeat = ft_atoi(argv[3]);
 	table->timetosleep = ft_atoi(argv[4]);
-	table->philomusteat = EMPTY;
-	table->anyone_dead = NO;
-	table->all_eat = NO;
-	table->start_time = get_time();
-	pthread_mutex_init(&table->print_m, NULL);
+	table->philomusteat = EMPTY;//başta boş olaki argc = 6 olursa
+	table->anyone_dead = NO;//ölen kimse varmı
+	table->all_eat = NO; //hepsi yedi
+	table->start_time = get_time();//başlangıç zamnı
+	pthread_mutex_init(&table->print_m, NULL);//Yazdırma işlemi yaparken kullanılcak !
 	if (argc == 6)
-		table->philomusteat = atoi(argv[5]);
+		table->philomusteat = atoi(argv[5]);// zorunluluk durumu ekstara argüman alır ise
 	if (!init_philo(table))
 		return (0);
 	if (!init_forks(table))
