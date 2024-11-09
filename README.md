@@ -1,0 +1,1 @@
+A classic Dining philosophers problem solved with a multithreaded program. The program takes in the amount of philosophers, which is also the amount of forks available in the dining table. The program feeds the philosophers in turns with the limited resources (forks) when given reasonable input.
